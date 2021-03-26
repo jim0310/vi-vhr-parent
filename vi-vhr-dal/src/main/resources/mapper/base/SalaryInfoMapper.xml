@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.five.monkey.vi.vhr.dal.mapper.base.SalaryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.five.monkey.vi.vhr.dal.entity.SalaryInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="bonus" jdbcType="DECIMAL" property="bonus" />
+    <result column="lunch_salary" jdbcType="DECIMAL" property="lunchSalary" />
+    <result column="traffic_salary" jdbcType="DECIMAL" property="trafficSalary" />
+    <result column="basic_salary" jdbcType="DECIMAL" property="basicSalary" />
+    <result column="all_salary" jdbcType="DECIMAL" property="allSalary" />
+    <result column="deliver_year" jdbcType="INTEGER" property="deliverYear" />
+    <result column="deliver_month" jdbcType="INTEGER" property="deliverMonth" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, employee_id, bonus, lunch_salary, traffic_salary, basic_salary, all_salary, deliver_year, 
+    deliver_month
+  </sql>
+  <select id="selectByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from `t_salary_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `t_salary_info`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from `t_salary_info`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfoExample">
+    delete from `t_salary_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `t_salary_info` (employee_id, bonus, lunch_salary, 
+      traffic_salary, basic_salary, all_salary, 
+      deliver_year, deliver_month)
+    values (#{employeeId,jdbcType=BIGINT}, #{bonus,jdbcType=DECIMAL}, #{lunchSalary,jdbcType=DECIMAL}, 
+      #{trafficSalary,jdbcType=DECIMAL}, #{basicSalary,jdbcType=DECIMAL}, #{allSalary,jdbcType=DECIMAL}, 
+      #{deliverYear,jdbcType=INTEGER}, #{deliverMonth,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `t_salary_info`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="bonus != null">
+        bonus,
+      </if>
+      <if test="lunchSalary != null">
+        lunch_salary,
+      </if>
+      <if test="trafficSalary != null">
+        traffic_salary,
+      </if>
+      <if test="basicSalary != null">
+        basic_salary,
+      </if>
+      <if test="allSalary != null">
+        all_salary,
+      </if>
+      <if test="deliverYear != null">
+        deliver_year,
+      </if>
+      <if test="deliverMonth != null">
+        deliver_month,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="bonus != null">
+        #{bonus,jdbcType=DECIMAL},
+      </if>
+      <if test="lunchSalary != null">
+        #{lunchSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="trafficSalary != null">
+        #{trafficSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="basicSalary != null">
+        #{basicSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="allSalary != null">
+        #{allSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverYear != null">
+        #{deliverYear,jdbcType=INTEGER},
+      </if>
+      <if test="deliverMonth != null">
+        #{deliverMonth,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfoExample" resultType="java.lang.Long">
+    select count(*) from `t_salary_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update `t_salary_info`
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.employeeId != null">
+        employee_id = #{record.employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.bonus != null">
+        bonus = #{record.bonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lunchSalary != null">
+        lunch_salary = #{record.lunchSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.trafficSalary != null">
+        traffic_salary = #{record.trafficSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.basicSalary != null">
+        basic_salary = #{record.basicSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.allSalary != null">
+        all_salary = #{record.allSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deliverYear != null">
+        deliver_year = #{record.deliverYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliverMonth != null">
+        deliver_month = #{record.deliverMonth,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `t_salary_info`
+    set id = #{record.id,jdbcType=BIGINT},
+      employee_id = #{record.employeeId,jdbcType=BIGINT},
+      bonus = #{record.bonus,jdbcType=DECIMAL},
+      lunch_salary = #{record.lunchSalary,jdbcType=DECIMAL},
+      traffic_salary = #{record.trafficSalary,jdbcType=DECIMAL},
+      basic_salary = #{record.basicSalary,jdbcType=DECIMAL},
+      all_salary = #{record.allSalary,jdbcType=DECIMAL},
+      deliver_year = #{record.deliverYear,jdbcType=INTEGER},
+      deliver_month = #{record.deliverMonth,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfo">
+    update `t_salary_info`
+    <set>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="bonus != null">
+        bonus = #{bonus,jdbcType=DECIMAL},
+      </if>
+      <if test="lunchSalary != null">
+        lunch_salary = #{lunchSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="trafficSalary != null">
+        traffic_salary = #{trafficSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="basicSalary != null">
+        basic_salary = #{basicSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="allSalary != null">
+        all_salary = #{allSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverYear != null">
+        deliver_year = #{deliverYear,jdbcType=INTEGER},
+      </if>
+      <if test="deliverMonth != null">
+        deliver_month = #{deliverMonth,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.five.monkey.vi.vhr.dal.entity.SalaryInfo">
+    update `t_salary_info`
+    set employee_id = #{employeeId,jdbcType=BIGINT},
+      bonus = #{bonus,jdbcType=DECIMAL},
+      lunch_salary = #{lunchSalary,jdbcType=DECIMAL},
+      traffic_salary = #{trafficSalary,jdbcType=DECIMAL},
+      basic_salary = #{basicSalary,jdbcType=DECIMAL},
+      all_salary = #{allSalary,jdbcType=DECIMAL},
+      deliver_year = #{deliverYear,jdbcType=INTEGER},
+      deliver_month = #{deliverMonth,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

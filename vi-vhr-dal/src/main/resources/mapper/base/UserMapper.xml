@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.five.monkey.vi.vhr.dal.mapper.base.UserMapper">
+    <resultMap id="BaseResultMap" type="com.five.monkey.vi.vhr.dal.entity.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="identify_id" jdbcType="VARCHAR" property="identifyId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="e_mail" jdbcType="VARCHAR" property="email"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="sex" jdbcType="TINYINT" property="sex"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="wed_lock" jdbcType="TINYINT" property="wedLock"/>
+        <result column="race" jdbcType="VARCHAR" property="race"/>
+        <result column="place" jdbcType="VARCHAR" property="place"/>
+        <result column="politic" jdbcType="VARCHAR" property="politic"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="specialty" jdbcType="VARCHAR" property="specialty"/>
+        <result column="top_degree" jdbcType="TINYINT" property="topDegree"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, identify_id, `name`, phone, e_mail, address, sex, birthday, wed_lock, race, place, 
+    politic, school, specialty, top_degree
+  </sql>
+    <select id="selectByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.UserExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from `t_user_info`
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="length != null">
+            <if test="start != null">
+                limit #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER}
+            </if>
+            <if test="start == null ">
+                limit #{length,jdbcType=INTEGER}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `t_user_info`
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from `t_user_info`
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.UserExample">
+        delete from `t_user_info`
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.five.monkey.vi.vhr.dal.entity.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into `t_user_info` (identify_id, `name`, phone,
+        e_mail, address, sex,
+        birthday, wed_lock, race,
+        place, politic, school,
+        specialty, top_degree)
+        values (#{identifyId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
+        #{birthday,jdbcType=DATE}, #{wedLock,jdbcType=TINYINT}, #{race,jdbcType=VARCHAR},
+        #{place,jdbcType=VARCHAR}, #{politic,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR},
+        #{specialty,jdbcType=VARCHAR}, #{topDegree,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.five.monkey.vi.vhr.dal.entity.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into `t_user_info`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="identifyId != null">
+                identify_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                e_mail,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="wedLock != null">
+                wed_lock,
+            </if>
+            <if test="race != null">
+                race,
+            </if>
+            <if test="place != null">
+                place,
+            </if>
+            <if test="politic != null">
+                politic,
+            </if>
+            <if test="school != null">
+                school,
+            </if>
+            <if test="specialty != null">
+                specialty,
+            </if>
+            <if test="topDegree != null">
+                top_degree,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="identifyId != null">
+                #{identifyId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="wedLock != null">
+                #{wedLock,jdbcType=TINYINT},
+            </if>
+            <if test="race != null">
+                #{race,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null">
+                #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="politic != null">
+                #{politic,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="specialty != null">
+                #{specialty,jdbcType=VARCHAR},
+            </if>
+            <if test="topDegree != null">
+                #{topDegree,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.UserExample"
+            resultType="java.lang.Long">
+        select count(*) from `t_user_info`
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update `t_user_info`
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.identifyId != null">
+                identify_id = #{record.identifyId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                `name` = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                e_mail = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null">
+                address = #{record.address,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null">
+                sex = #{record.sex,jdbcType=TINYINT},
+            </if>
+            <if test="record.birthday != null">
+                birthday = #{record.birthday,jdbcType=DATE},
+            </if>
+            <if test="record.wedLock != null">
+                wed_lock = #{record.wedLock,jdbcType=TINYINT},
+            </if>
+            <if test="record.race != null">
+                race = #{record.race,jdbcType=VARCHAR},
+            </if>
+            <if test="record.place != null">
+                place = #{record.place,jdbcType=VARCHAR},
+            </if>
+            <if test="record.politic != null">
+                politic = #{record.politic,jdbcType=VARCHAR},
+            </if>
+            <if test="record.school != null">
+                school = #{record.school,jdbcType=VARCHAR},
+            </if>
+            <if test="record.specialty != null">
+                specialty = #{record.specialty,jdbcType=VARCHAR},
+            </if>
+            <if test="record.topDegree != null">
+                top_degree = #{record.topDegree,jdbcType=TINYINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update `t_user_info`
+        set id = #{record.id,jdbcType=BIGINT},
+        identify_id = #{record.identifyId,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        e_mail = #{record.email,jdbcType=VARCHAR},
+        address = #{record.address,jdbcType=VARCHAR},
+        sex = #{record.sex,jdbcType=TINYINT},
+        birthday = #{record.birthday,jdbcType=DATE},
+        wed_lock = #{record.wedLock,jdbcType=TINYINT},
+        race = #{record.race,jdbcType=VARCHAR},
+        place = #{record.place,jdbcType=VARCHAR},
+        politic = #{record.politic,jdbcType=VARCHAR},
+        school = #{record.school,jdbcType=VARCHAR},
+        specialty = #{record.specialty,jdbcType=VARCHAR},
+        top_degree = #{record.topDegree,jdbcType=TINYINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.five.monkey.vi.vhr.dal.entity.User">
+        update `t_user_info`
+        <set>
+            <if test="identifyId != null">
+                identify_id = #{identifyId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                e_mail = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="wedLock != null">
+                wed_lock = #{wedLock,jdbcType=TINYINT},
+            </if>
+            <if test="race != null">
+                race = #{race,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null">
+                place = #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="politic != null">
+                politic = #{politic,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                school = #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="specialty != null">
+                specialty = #{specialty,jdbcType=VARCHAR},
+            </if>
+            <if test="topDegree != null">
+                top_degree = #{topDegree,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.five.monkey.vi.vhr.dal.entity.User">
+        update `t_user_info`
+        set identify_id = #{identifyId,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        e_mail = #{email,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=TINYINT},
+        birthday = #{birthday,jdbcType=DATE},
+        wed_lock = #{wedLock,jdbcType=TINYINT},
+        race = #{race,jdbcType=VARCHAR},
+        place = #{place,jdbcType=VARCHAR},
+        politic = #{politic,jdbcType=VARCHAR},
+        school = #{school,jdbcType=VARCHAR},
+        specialty = #{specialty,jdbcType=VARCHAR},
+        top_degree = #{topDegree,jdbcType=TINYINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

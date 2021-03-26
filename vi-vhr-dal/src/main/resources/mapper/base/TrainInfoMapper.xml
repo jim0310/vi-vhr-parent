@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.five.monkey.vi.vhr.dal.mapper.base.TrainInfoMapper">
+  <resultMap id="BaseResultMap" type="com.five.monkey.vi.vhr.dal.entity.TrainInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="train_date" jdbcType="TIMESTAMP" property="trainDate" />
+    <result column="train_content" jdbcType="VARCHAR" property="trainContent" />
+    <result column="train_address" jdbcType="VARCHAR" property="trainAddress" />
+    <result column="train_state" jdbcType="TINYINT" property="trainState" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, employee_id, train_date, train_content, train_address, train_state, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from `t_train_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `t_train_info`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from `t_train_info`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfoExample">
+    delete from `t_train_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `t_train_info` (employee_id, train_date, train_content, 
+      train_address, train_state, remark
+      )
+    values (#{employeeId,jdbcType=BIGINT}, #{trainDate,jdbcType=TIMESTAMP}, #{trainContent,jdbcType=VARCHAR}, 
+      #{trainAddress,jdbcType=VARCHAR}, #{trainState,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `t_train_info`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="trainDate != null">
+        train_date,
+      </if>
+      <if test="trainContent != null">
+        train_content,
+      </if>
+      <if test="trainAddress != null">
+        train_address,
+      </if>
+      <if test="trainState != null">
+        train_state,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="trainDate != null">
+        #{trainDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainContent != null">
+        #{trainContent,jdbcType=VARCHAR},
+      </if>
+      <if test="trainAddress != null">
+        #{trainAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trainState != null">
+        #{trainState,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfoExample" resultType="java.lang.Long">
+    select count(*) from `t_train_info`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update `t_train_info`
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.employeeId != null">
+        employee_id = #{record.employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.trainDate != null">
+        train_date = #{record.trainDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.trainContent != null">
+        train_content = #{record.trainContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainAddress != null">
+        train_address = #{record.trainAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainState != null">
+        train_state = #{record.trainState,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `t_train_info`
+    set id = #{record.id,jdbcType=BIGINT},
+      employee_id = #{record.employeeId,jdbcType=BIGINT},
+      train_date = #{record.trainDate,jdbcType=TIMESTAMP},
+      train_content = #{record.trainContent,jdbcType=VARCHAR},
+      train_address = #{record.trainAddress,jdbcType=VARCHAR},
+      train_state = #{record.trainState,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfo">
+    update `t_train_info`
+    <set>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="trainDate != null">
+        train_date = #{trainDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainContent != null">
+        train_content = #{trainContent,jdbcType=VARCHAR},
+      </if>
+      <if test="trainAddress != null">
+        train_address = #{trainAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trainState != null">
+        train_state = #{trainState,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.five.monkey.vi.vhr.dal.entity.TrainInfo">
+    update `t_train_info`
+    set employee_id = #{employeeId,jdbcType=BIGINT},
+      train_date = #{trainDate,jdbcType=TIMESTAMP},
+      train_content = #{trainContent,jdbcType=VARCHAR},
+      train_address = #{trainAddress,jdbcType=VARCHAR},
+      train_state = #{trainState,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
